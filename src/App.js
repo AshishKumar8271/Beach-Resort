@@ -16,7 +16,7 @@ const App = () => {
     <Route path='/rooms' element = {<Rooms/>}/>
     <Route path={`/rooms/:slug`} element={<SingleRoom/>} />
     <Route path="/error" element={<Error/>} />
-    <Route path = "*"element = {<Error/>}/>
+    <Route path = "*"element = {<Home/>}/>
     </Routes>
     </>
   )
