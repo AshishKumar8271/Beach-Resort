@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Beach-Resort/static/css/main.11222fa0.css",
-    "main.js": "/Beach-Resort/static/js/main.5e5d0fc1.js",
+    "main.js": "/Beach-Resort/static/js/main.1d025342.js",
     "static/media/details-1.jpeg": "/Beach-Resort/static/media/details-1.c485174060e0cfd387f1.jpeg",
     "static/media/room-7.jpeg": "/Beach-Resort/static/media/room-7.d2c011f051d458d2d48a.jpeg",
     "static/media/room-9.jpeg": "/Beach-Resort/static/media/room-9.18aabe9f1ed70f66b8e6.jpeg",
@@ -21,10 +21,10 @@
     "static/media/logo.svg": "/Beach-Resort/static/media/logo.87947b58e786b5fa417693c41e0781e1.svg",
     "index.html": "/Beach-Resort/index.html",
     "main.11222fa0.css.map": "/Beach-Resort/static/css/main.11222fa0.css.map",
-    "main.5e5d0fc1.js.map": "/Beach-Resort/static/js/main.5e5d0fc1.js.map"
+    "main.1d025342.js.map": "/Beach-Resort/static/js/main.1d025342.js.map"
   },
   "entrypoints": [
     "static/css/main.11222fa0.css",
-    "static/js/main.5e5d0fc1.js"
+    "static/js/main.1d025342.js"
   ]
 }
