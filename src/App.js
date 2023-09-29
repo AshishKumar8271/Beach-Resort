@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Home from "./pages/Home";
 import Rooms from './pages/Rooms';
 import SingleRoom from "./pages/SingleRoom";
@@ -6,8 +6,15 @@ import Error from "./pages/Error";
 import { UseCustomHook } from './Context';
 import {Route, Routes } from 'react-router-dom';
 import Navbar from './Components/Home/Navbar';
+import { useLocation } from 'react-router-dom';
 
 const App = () => {
+  const {pathname} = useLocation();
+  console.log(pathname);
+
+  useEffect(()=>{
+    window.scrollTo(0,0);
+  },[pathname])
   return (
     <>
   <Navbar/>

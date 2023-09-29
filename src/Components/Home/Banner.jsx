@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const Banner = ({title,des,link,imgLink,SingleRoomClass}) => {
+const Banner = ({title,des,link,imgLink,SingleRoomClass,linkText}) => {
   return (
     <header className={`banner ${SingleRoomClass}`}>
       <img src={imgLink} alt="" />
@@ -10,7 +10,7 @@ const Banner = ({title,des,link,imgLink,SingleRoomClass}) => {
             <div className="underline"></div>
             <p>{des}</p>
             <button className="roomsLink">
-                <Link to={link}>Our Rooms</Link>
+                <Link to={link}>{linkText}</Link>
             </button>
         </div>
     </header>

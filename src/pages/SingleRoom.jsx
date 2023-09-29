@@ -11,7 +11,7 @@ const SingleRoom = () => {
   console.log(viewImages);
   return (
     <>
-    <Banner SingleRoomClass="SingleRoom" title={name} imgLink={images[0]} link={`/rooms/:${slug}`} />
+    <Banner SingleRoomClass="SingleRoom" title={name} imgLink={images[0]} link={`/rooms`} linkText="Back To Rooms" />
     <section className="singleRoom">
     <div className="RoomImages">
         {
