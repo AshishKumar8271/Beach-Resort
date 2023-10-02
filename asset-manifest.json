@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/Beach-Resort/static/css/main.6b83db29.css",
-    "main.js": "/Beach-Resort/static/js/main.25baca85.js",
+    "main.css": "/Beach-Resort/static/css/main.952bb77d.css",
+    "main.js": "/Beach-Resort/static/js/main.b993c3ae.js",
     "static/media/details-1.jpeg": "/Beach-Resort/static/media/details-1.c485174060e0cfd387f1.jpeg",
     "static/media/room-7.jpeg": "/Beach-Resort/static/media/room-7.d2c011f051d458d2d48a.jpeg",
     "static/media/room-9.jpeg": "/Beach-Resort/static/media/room-9.18aabe9f1ed70f66b8e6.jpeg",
@@ -20,11 +20,11 @@
     "static/media/details-3.jpeg": "/Beach-Resort/static/media/details-3.f525a3c8d6914f54085e.jpeg",
     "static/media/logo.svg": "/Beach-Resort/static/media/logo.87947b58e786b5fa417693c41e0781e1.svg",
     "index.html": "/Beach-Resort/index.html",
-    "main.6b83db29.css.map": "/Beach-Resort/static/css/main.6b83db29.css.map",
-    "main.25baca85.js.map": "/Beach-Resort/static/js/main.25baca85.js.map"
+    "main.952bb77d.css.map": "/Beach-Resort/static/css/main.952bb77d.css.map",
+    "main.b993c3ae.js.map": "/Beach-Resort/static/js/main.b993c3ae.js.map"
   },
   "entrypoints": [
-    "static/css/main.6b83db29.css",
-    "static/js/main.25baca85.js"
+    "static/css/main.952bb77d.css",
+    "static/js/main.b993c3ae.js"
   ]
 }
