@@ -2,11 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { UseCustomHook } from '../Context';
 
-const RoomsContainer = ({id,imgSource,slug,name,price,}) => 
+const RoomsContainer = ({imgSource,slug,name,price,}) => 
 {
     const {sendSlug} = UseCustomHook();
             return(
-                <div className="service featureService" key={id}>
+                <div className="service featureService">
                     <div className="imageandLink">
                     <img src={imgSource} alt="" />
                     <Link to={`/rooms/:${slug}`} className='feature-overlay' onClick={()=>sendSlug(slug)}>
