@@ -14,7 +14,7 @@ const FeatureRoom = () => {
                     const {id,images,name,price,slug} = ele;
                     const imgSource = images[0];
                     return(
-                        <RoomsContainer id={id} imgSource={imgSource} slug={slug} name={name} price={price} />
+                        <RoomsContainer key={id} imgSource={imgSource} slug={slug} name={name} price={price} />
                     )
                 })
             }

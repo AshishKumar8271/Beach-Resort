@@ -6,22 +6,26 @@ import {linksData} from "./links";
 import "./Compo.css";
 const Navbar = () => {
   const [isOpen,setOpen] = useState(false);
+
+  const setHeightZero=()=>{
+    setOpen(false);
+  }
   return (
     <>
     <nav className="navbar">
       <div className="nav-center">
         <div className="nav-header">
           <img src={logo} alt="" />
-          <button className="toggleMenu" onClick={()=>setOpen(!isOpen)}>
+          <button className="toggleMenuBtn" onClick={()=>setOpen(!isOpen)}>
             <BiMenuAltLeft/>
           </button>
         </div>
-        <ul className={`${isOpen ? "links showMenu" : "links" }`}>
+        <ul className={`${isOpen ? "links showMenu" : "links" }`} >
           {
             linksData.map((ele)=>{
               const {id,url,name}  = ele;
              return <li key={id}>
-              <Link to={url}>{name}</Link>
+              <Link to={url} onClick={()=>setHeightZero()}>{name}</Link>
           </li>
             })
           }
