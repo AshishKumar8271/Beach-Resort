@@ -28,9 +28,6 @@ const initialData = {
     maxSize:900,
 }
 
-
-
-
 export const AppProvider = ({children})=>{
     const [resort,dispatch] = useReducer(reducer,initialData);
 
@@ -64,8 +61,7 @@ export const AppProvider = ({children})=>{
         }
         dispatch({type:"handleInput",payload:{name,value}})
     }
-
-
+    
     return <AppContext.Provider value = {{...resort,sendSlug,SearchRooms,openModal,closeModal,filterList,handleInput
     }}>{children}</AppContext.Provider>
 };
