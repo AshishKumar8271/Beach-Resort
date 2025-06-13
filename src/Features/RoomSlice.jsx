@@ -4,7 +4,7 @@ import db from "../Firebase/firebase";
 
 export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
     try {
-        const querySnapShot = await getDocs(collection(db, 'roomsese'));
+        const querySnapShot = await getDocs(collection(db, 'rooms'));
         if (querySnapShot.empty) {
             throw new Error("No rooms found or collection doesn't exist!")
         }

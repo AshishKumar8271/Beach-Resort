@@ -9,7 +9,7 @@ export const signUpUser = createAsyncThunk('auth/signUpUser', async ({ name, ema
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCred.user;
 
-        updateProfile(user, {
+        await updateProfile(user, {
             displayName: name,
         });
 
@@ -28,7 +28,6 @@ export const signInUser = createAsyncThunk('auth/signInUser', async ({ email, pa
         return { name: user.displayName, email: user.email };
     } catch (err) {
         const errMessage = getFirebaseErrorMessage(err.code);
-        console.log(err.code);
         return rejectWithValue(errMessage);
     }
 })
