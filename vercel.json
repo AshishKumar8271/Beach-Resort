@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploy": {
+      "preview": false
+    }
+  }
+}
