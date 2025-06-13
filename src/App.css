@@ -1,3 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Poppins&family=Roboto:wght@500&family=Teko:wght@300&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    -webkit-tap-highlight-color: transparent;
+}
+
+body{
+    font-family: 'Roboto', sans-serif;
+    background-color: #fff;
+}
+
 .navbar {
   position: sticky;
   top: 0;
@@ -20,7 +35,6 @@
 }
 
 .toggleMenuBtn {
-  display: grid;
   padding: 2px;
   place-items: center;
   background-color: transparent;
@@ -283,7 +297,6 @@ section .underline {
 }
 
 .featureService img {
-
   height: 100%;
   width: 100%;
 }
@@ -292,7 +305,7 @@ section .underline {
   position: absolute;
   top: 0;
   left: 0;
-  height: 98%;
+  height: 100%;
   width: 100%;
   display: grid;
   place-items: center;
@@ -675,4 +688,8 @@ section .underline {
   display: grid;
   min-height: 30vh;
   place-items: center;
+}
+
+.loader {
+  width: 80px;
 }

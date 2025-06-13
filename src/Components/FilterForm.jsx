@@ -34,6 +34,7 @@ const FilterForm = () => {
   const handleReset = () => {
     dispatch(resetFilterForm());
     dispatch(closeModal());
+    dispatch(filterList());
   }
 
   return (

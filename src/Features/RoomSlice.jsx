@@ -1,22 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { Items } from "../data";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { collection, getDocs } from "firebase/firestore";
+import db from "../Firebase/firebase";
 
-const itemsList = Items.map((item) => {
-    const { sys, fields } = item;
-    const id = sys.id;
-    const images = fields.images.map((image) => {
-        return image.fields.file.url;
-    });
-
-    return { ...fields, images, id };
-});
+export const fetchRooms = createAsyncThunk('rooms/fetchRooms', async () => {
+    try {
+        const querySnapShot = await getDocs(collection(db, 'roomsese'));
+        if (querySnapShot.empty) {
+            throw new Error("No rooms found or collection doesn't exist!")
+        }
+        const res = querySnapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        return res;
+    } catch (err) {
+        throw new Error(err.message);
+    }
+})
 
 const initialState = {
-    roomsData: itemsList,
-    roomsList: itemsList,
+    roomsData: [],
+    roomsList: [],
     sortedRooms: [],
-    featureRooms: itemsList.filter((ele) => ele.featured === true),
+    featureRooms: [],
     loading: false,
+    error: "",
     isOpen: false,
     price: 600,
     minPrice: 0,
@@ -62,11 +67,32 @@ const RoomSlice = createSlice({
             state.roomsList = filteredRooms;
         },
         resetFilterForm: (state) => {
-            Object.assign(state, { 
-                ...initialState, 
-            });
+            state.price = 600;
+            state.minPrice = 0;
+            state.maxPrice = 600;
+            state.type = "all";
+            state.guests = 1;
+            state.minSize = 0;
+            state.maxSize = 1000;
         },
     },
+
+    extraReducers: (builder) => {
+        builder.addCase(fetchRooms.pending, (state) => {
+            state.loading = true;
+        });
+        builder.addCase(fetchRooms.fulfilled, (state, action) => {
+            state.roomsData = action.payload;
+            state.roomsList = action.payload;
+            state.featureRooms = action.payload.filter((data) => data.featured === true);
+            state.loading = false;
+        })
+        builder.addCase(fetchRooms.rejected, (state, action) => {
+            console.log('Error while fetching: ', action.error.message);
+            state.loading = false;
+            state.error = action.error.message;
+        })
+    }
 });
 
 export const {

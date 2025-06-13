@@ -8,12 +8,12 @@ const RoomsContainer = ({ imgSource, slug, name, price, }) => {
     return (
         <div className="service featureService">
             <div className="imageandLink">
-                <img src={imgSource} alt=""/>
+                <img src={imgSource} alt="" />
                 <Link to={`/rooms/${slug}`} className='feature-overlay' onClick={() => dispatch(sendSlug(slug))}>
                     <h4>Features</h4>
                 </Link>
             </div>
-            <h4>{name}</h4>
+            <h4 className='font-bold'>{name}</h4>
             <div className="feature-price">
                 <h4>${price}</h4>
                 <p>for night</p>
