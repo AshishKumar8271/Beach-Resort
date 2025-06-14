@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import logo from "../assets/Images/logo.svg";
+import logo from "/images/logo.svg";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import { linksData } from "./Home/links";
