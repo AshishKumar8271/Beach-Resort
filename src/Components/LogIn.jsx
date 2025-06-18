@@ -1,135 +1,163 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     Button,
     TextField,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
     CircularProgress,
     Alert,
+    Avatar,
+    Box,
+    Typography,
+    FormControlLabel,
+    Checkbox,
+    FormControl,
+    RadioGroup,
+    FormLabel,
+    Radio,
 } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { IoAddCircleOutline } from "react-icons/io5";
 import { signInUser, signUpUser } from "../Features/AuthSlice";
+import { FaLock } from "react-icons/fa6";
 
-const LogIn = ({ isSignUp, openModal, setOpenModal, toggleSignUp }) => {
-    const { user, loading, error } = useSelector(state => state.auth);
+const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
+    const { user, loading, error } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
-
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isAdmin, setIsAdmin] = useState(false);
-
-
-    const toggleAdmin = () => {
-        setIsAdmin(!isAdmin);
-    };
+    const [gender, setGender] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (isAdmin) {
-            console.log('Admin Sign In');
-        }
-        else if (!isAdmin && isSignUp) {
-            dispatch(signUpUser({ name, email, password }));
-        }
-        else {
+        if (type === "signUp") {
+            dispatch(signUpUser({ name, email, password, gender }));
+        } else {
             dispatch(signInUser({ email, password }));
         }
 
-        setName('');
-        setEmail('');
-        setPassword('');
+        setName("");
+        setEmail("");
+        setPassword("");
+        setGender("");
     };
-
 
     useEffect(() => {
         if (user) {
             setOpenModal(false);
         }
-    }, [user, setOpenModal])
-
+    }, [user, setOpenModal]);
     return (
-        <>
-            <Dialog
-                open={openModal}
-                onClose={!loading && (() => setOpenModal(false))}
-                className="transition-transform transform-gpu duration-300 ease-in-out"
-                style={{
-                    transform: openModal ? "scale(1)" : "scale(0.9)",
-                    opacity: openModal ? 1 : 0,
-                }}
+        <form onSubmit={handleSubmit}>
+            {error && (
+                <Alert severity="error" className="mb-4">
+                    {error}
+                </Alert>
+            )}
+            <Box className="flex flex-col items-center mb-2 gap-2">
+                <Avatar sx={{ bgcolor: "primary.main", height: 60, width: 60 }}>
+                    {type === "signIn" ? (
+                        <FaLock className="text-2xl" />
+                    ) : (
+                        <IoAddCircleOutline className="text-3xl" />
+                    )}
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    {type === "signIn" ? "Sign In" : "Sign Up"}
+                </Typography>
+            </Box>
+            {type === "signUp" && (
+                <TextField
+                    value={name}
+                    margin="dense"
+                    id="name"
+                    label="Name"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    className="w-full"
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                />
+            )}
+            <TextField
+                value={email}
+                margin="dense"
+                id="email"
+                label="Email Address"
+                type="email"
+                fullWidth
+                variant="standard"
+                className="w-full"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+            />
+            <TextField
+                value={password}
+                margin="dense"
+                id="password"
+                label="Password"
+                type="password"
+                variant="standard"
+                fullWidth
+                className="w-full"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+            />
+            {type === "signUp" && (
+                <FormControl className="!mt-2">
+                    <FormLabel id="gender">Gender</FormLabel>
+                    <RadioGroup
+                        row
+                        name="gender"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                    >
+                        <FormControlLabel value="male" control={<Radio />} label="Male" />
+                        <FormControlLabel
+                            value="female"
+                            control={<Radio />}
+                            label="Female"
+                        />
+                    </RadioGroup>
+                </FormControl>
+            )}
+            {type === "signIn" ? (
+                <FormControlLabel
+                    control={<Checkbox defaultChecked />}
+                    label="Remember Me"
+                />
+            ) : (
+                <FormControlLabel
+                    control={<Checkbox />}
+                    label="I accept the terms and conditions"
+                />
+            )}
+            <Button
+                type="submit"
+                variant="contained"
+                disabled={loading}
+                loading={loading}
+                loadingPosition="start"
+                fullWidth
             >
-                <form onSubmit={handleSubmit}>
-                    <DialogTitle className="text-2xl font-bold text-center">
-                        {
-                            isAdmin ? 'Admin Sign In' : isSignUp ? 'User Sign Up' : 'User Sign In'
-                        }
-                    </DialogTitle>
-                    <DialogContent className="p-4">
-                        {error && <Alert severity="error" className="mb-4">{error}</Alert>}
-                        {isSignUp && (
-                            <TextField
-                                value={name}
-                                margin="dense"
-                                id="name"
-                                label="Name"
-                                type="text"
-                                fullWidth
-                                className="w-full"
-                                onChange={(e) => setName(e.target.value)}
-                                required
-                            />
-                        )}
-                        <TextField
-                            value={email}
-                            margin="dense"
-                            id="email"
-                            label="Email Address"
-                            type="email"
-                            fullWidth
-                            className="w-full"
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                        <TextField
-                            value={password}
-                            margin="dense"
-                            id="password"
-                            label="Password"
-                            type="password"
-                            fullWidth
-                            className="w-full"
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                        />
-                    </DialogContent>
-                    <DialogActions className=" -mt-6 mb-2 p-4">
-                        {loading && <CircularProgress size={30} className="block my-4" />}
-                        <Button
-                            type="submit"
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                            disabled={loading}
-                        >
-                            {isSignUp ? "Sign Up" : "Sign In"}
-                        </Button>
-                    </DialogActions>
-                    <hr className="border-gray-300" />
-                    <DialogActions className="flex justify-between p-4">
-                        <Button
-                            onClick={toggleSignUp}
-                            className="text-blue-500 flex-1"
-                        >
-                            {isSignUp ? "Switch to Sign In" : "Switch to Sign Up"}
-                        </Button>
-                        <Button onClick={toggleAdmin} className="text-blue-500 flex-1">
-                            {isAdmin ? "Switch to User Sign In" : "Switch to Admin Sign In"}
-                        </Button>
-                    </DialogActions>
-                </form>
-            </Dialog>
-        </>
+                {type === "signIn" ? "SIGN IN" : "SIGN UP"}
+            </Button>
+            {type === "signIn" && (
+                <Typography variant="body2" className="text-center">
+                    Don't have an account?
+                    <Button
+                        variant="text"
+                        className="hover:bg-transparent"
+                        disableRipple
+                        disableFocusRipple
+                        disableElevation
+                        onClick={() => handleSignUpClick()}
+                    >
+                        Sign Up
+                    </Button>
+                </Typography>
+            )}
+        </form>
     );
 };
 

@@ -1,5 +1,5 @@
 import {FaBeer, FaCocktail, FaHiking, FaShuttleVan} from "react-icons/fa";
-export const linksData = [
+export const pages = [
     {
         id:1,
         url:"/",

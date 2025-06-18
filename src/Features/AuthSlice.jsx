@@ -4,16 +4,19 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfi
 import { getFirebaseErrorMessage } from "../Firebase/firebaseErrorHandler";
 
 
-export const signUpUser = createAsyncThunk('auth/signUpUser', async ({ name, email, password }, { rejectWithValue }) => {
+export const signUpUser = createAsyncThunk('auth/signUpUser', async ({ name, email, password, gender }, { rejectWithValue }) => {
     try {
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCred.user;
 
         await updateProfile(user, {
             displayName: name,
+            gender: gender,
         });
 
-        return { name: user.displayName, email: user.email };
+        console.log(user);
+
+        return { name: user.displayName, email: user.email, gender: user.gender };
     } catch (err) {
         const errMessage = getFirebaseErrorMessage(err.code);
         return rejectWithValue(errMessage);
@@ -25,7 +28,7 @@ export const signInUser = createAsyncThunk('auth/signInUser', async ({ email, pa
         const getUser = await signInWithEmailAndPassword(auth, email, password);
         const user = getUser.user;
 
-        return { name: user.displayName, email: user.email };
+        return { name: user.displayName, email: user.email, gender: user.gender };
     } catch (err) {
         const errMessage = getFirebaseErrorMessage(err.code);
         return rejectWithValue(errMessage);
@@ -62,7 +65,6 @@ const AuthSlice = createSlice({
                 state.user = action.payload;
             }),
             builder.addCase(signInUser.rejected, (state, action) => {
-                console.log(action.error);
                 state.loading = false;
                 state.error = action.payload;
             }),

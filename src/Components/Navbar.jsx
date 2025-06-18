@@ -1,123 +1,190 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import logo from "/images/logo.svg";
-import { BiMenuAltLeft } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import { linksData } from "./Home/links";
-import { FaCircleUser } from "react-icons/fa6";
+import { pages } from "./Home/links";
+import PersonIcon from "@mui/icons-material/Person";
+import { RiMenuFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import LogIn from "./LogIn";
+import LogInDialog from "./LogInDialog";
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 
+const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  const [isOpen, setOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
-  const [isSignUp, setSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
-
-  const setHeightZero = () => {
-    setOpen(false);
+  const handleDrawerToggle = () => {
+    setMobileOpen((prevState) => !prevState);
   };
 
-  const handleSignUpClick = () => {
-    setSignUp(true);
-    setOpenModal(true);
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
 
   const handleLogInClick = () => {
-    setSignUp(false);
     setOpenModal(true);
   };
 
-  const toggleSignUp = () => {
-    setSignUp(!isSignUp);
-  };
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+      <img src={logo} alt="Beach Resort Logo" className="my-4 h-8 mx-auto" />
+      <Divider />
+      <List>
+        {pages.map((item) => (
+          <ListItem key={item.id} disablePadding>
+            <ListItemButton
+              LinkComponent="a"
+              href={item.url}
+              sx={{ textAlign: "center" }}
+            >
+              <ListItemText primary={item.name} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
 
   return (
     <>
-      <nav className="bg-[#e2e2e2] pt-3 flex items-center">
-        <div className="w-full sm:w-auto">
-          <div className="flex items-center justify-between px-3">
-            <img src={logo} alt="Beach Resort Logo" />
-            <div className="flex items-center gap-4 sm:hidden">
-              <button aria-label="User Profile">
-                <FaCircleUser className="text-4xl text-blue-500" />
-              </button>
-              <button onClick={() => setOpen(!isOpen)} aria-label="Toggle Menu">
-                <BiMenuAltLeft className="text-4xl" />
-              </button>
-            </div>
-          </div>
-          <ul
-            className={`sm:h-0 ${isOpen ? "h-[8.3rem]" : "h-0"
-              } mt-3 overflow-hidden transition-all duration-500`}
-          >
-            {linksData.map(({ id, url, name }) => (
-              <li key={id}>
-                <Link
-                  to={url}
-                  onClick={() => setHeightZero()}
-                  className="block px-3 hover:bg-blue-400 hover:text-white py-2 text-[1.1rem] transition-all hover:shadow-md"
+      <AppBar position="static" sx={{ bgcolor: "#e2e2e2" }}>
+        <Container maxWidth="xl">
+          <Toolbar disableGutters variant="dense">
+            <IconButton
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { md: "none" } }}
+            >
+              <RiMenuFill />
+            </IconButton>
+            <img src={logo} alt="Beach Resort Logo" className="h-8" />
+
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }} />
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 4 }}>
+              <List className="flex gap-8">
+                {pages.map((item) => (
+                  <ListItem key={item.id} disablePadding>
+                    <ListItemButton
+                      LinkComponent="a"
+                      href={item.url}
+                      disableGutters
+                      disableRipple
+                      sx={{
+                        textAlign: "center",color:'black', '&:hover': {
+                          backgroundColor: 'transparent',
+                          color: 'primary.main'
+                        },
+                      }}
+
+                    >
+                      <ListItemText primary={item.name} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            </Box>
+            {user ? (
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar
+                      alt={user.name}
+                      sx={{ width: 36, height: 36, fontSize: 18 }}
+                    />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  {name}
-                </Link>
-              </li>
-            ))}
-            {!user && (
-              <li className="flex justify-around border-t-[2px] border-t-gray-300 gap-6">
-                <button className="text-blue-500 px-8 py-2 text-lg border hover:text-blue-600">
-                  Log In
-                </button>
-                <button className="text-blue-500 px-8 py-2 text-lg hover:text-blue-600">
-                  Sign Up
-                </button>
-              </li>
+                  {settings.map((setting) => (
+                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                      <Typography sx={{ textAlign: "center" }}>
+                        {setting}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            ) : (
+              <Box>
+                <Button
+                  variant="contained"
+                  startIcon={<PersonIcon />}
+                  className="!text-sm md:!text-base"
+                  onClick={handleLogInClick}
+                >
+                  <span className="mt-1 -ml-1 capitalize">Sign In</span>
+                </Button>
+              </Box>
             )}
-          </ul>
-        </div>
-        <ul className="hidden sm:flex flex-1 pb-2 ml-4 items-center text-lg gap-8 transition-all duration-500">
-          {linksData.map(({ id, url, name }) => (
-            <li key={id}>
-              <Link
-                to={url}
-                onClick={() => setHeightZero()}
-                className="hover:text-blue-500 transition-all"
-              >
-                {name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        {user ? (
-          <button
-            className="hidden sm:block pb-3 mr-4"
-            aria-label="User Profile"
-          >
-            <FaCircleUser className="text-4xl text-blue-500 shadow-md rounded-full" />
-          </button>
-        ) : (
-          <div className="hidden sm:flex pb-2 gap-6 mr-4">
-            <button
-              className="text-blue-500 text-lg hover:text-blue-600"
-              onClick={handleLogInClick}
-            >
-              Log In
-            </button>
-            <button
-              className="text-blue-500 text-lg hover:text-blue-600"
-              onClick={handleSignUpClick}
-            >
-              Sign Up
-            </button>
-          </div>
-        )}
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      <nav>
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true,
+          }}
+          sx={{
+            display: { xs: "block", md: "none" },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: '250px',
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
       </nav>
 
-      <LogIn
+      <LogInDialog
         isSignUp={isSignUp}
         openModal={openModal}
         setOpenModal={setOpenModal}
-        toggleSignUp={toggleSignUp}
+        setIsSignUp={setIsSignUp}
       />
     </>
   );

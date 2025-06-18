@@ -88,7 +88,6 @@ const RoomSlice = createSlice({
             state.loading = false;
         })
         builder.addCase(fetchRooms.rejected, (state, action) => {
-            console.log('Error while fetching: ', action.error.message);
             state.loading = false;
             state.error = action.error.message;
         })
