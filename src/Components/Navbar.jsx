@@ -79,11 +79,11 @@ const Navbar = () => {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { md: "none" } }}
+              sx={{ mr: 0.5, display: { md: "none" } }}
             >
               <RiMenuFill />
             </IconButton>
-            <img src={logo} alt="Beach Resort Logo" className="h-8" />
+            <img src={logo} alt="Beach Resort Logo" className="h-7 sm:h-8" />
 
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }} />
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 4 }}>
