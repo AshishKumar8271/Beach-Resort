@@ -15,7 +15,7 @@ const TabPanel = ({ children, value, index }) => {
             id={`simple-tabpanel-${index}`}
         >
             {
-                value === index && <Box sx={{ p: 4 }}> {children}</Box>
+                value === index && <Box sx={{ p: {xs: 2, sm: 4} }}> {children}</Box>
             }
         </div>
     )
@@ -52,7 +52,7 @@ const LogInDialog = ({ isSignUp, openModal, setOpenModal, setIsSignUp }) => {
             open={openModal}
             onClose={handleClose}
         >
-            <Box className='max-w-md'>
+            <Box className='max-w-md' sx={{p : 0}}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                         <Tab label="SIGN IN" {...a11yProps(0)} sx={{ width: 1 / 2 }} />

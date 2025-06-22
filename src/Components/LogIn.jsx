@@ -129,7 +129,7 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
             ) : (
                 <FormControlLabel
                     control={<Checkbox />}
-                    label="I accept the terms and conditions"
+                    label={<span className="text-sm sm:text-base">I accept the terms and conditions</span>}
                 />
             )}
             <Button
