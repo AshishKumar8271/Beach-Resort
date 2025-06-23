@@ -3,5 +3,9 @@
     "deploy": {
       "preview": false
     }
-  }
+  },
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+
 }
