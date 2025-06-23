@@ -23,19 +23,22 @@ import {
   Toolbar,
   Tooltip,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { logout } from "../Features/AuthSlice";
 import { toast } from "react-toastify";
 import { auth } from "../Firebase/firebase";
+import { useLocation } from "react-router-dom";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = () => {
-  const { user } = useSelector((state) => state.auth);
+  const { user, checkingAuth } = useSelector((state) => state.auth);
   const [openModal, setOpenModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -115,12 +118,14 @@ const Navbar = () => {
                       disableGutters
                       disableRipple
                       sx={{
-                        textAlign: "center", color: 'black', '&:hover': {
+                        textAlign: "center",
+                        color: location.pathname === item.url ? 'primary.main' : 'black',
+                        fontWeight: location.pathname === item.url ? 700 : 400,
+                        '&:hover': {
                           backgroundColor: 'transparent',
-                          color: 'primary.main'
+                          color: 'primary.main',
                         },
                       }}
-
                     >
                       <ListItemText primary={item.name} />
                     </ListItemButton>
@@ -128,7 +133,12 @@ const Navbar = () => {
                 ))}
               </List>
             </Box>
-            {user ? (
+            {/* showing loading state for checking auth */}
+            {checkingAuth ? (
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 40 }}>
+                <CircularProgress size={28} thickness={4} />
+              </Box>
+            ) : user ? (
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

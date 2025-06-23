@@ -1,4 +1,3 @@
-import React from 'react'
 import Banner from '../Components/Home/Banner';
 import Services from '../Components/Home/Services';
 import FeatureRoom from '../Components/Home/FeatureRoom';

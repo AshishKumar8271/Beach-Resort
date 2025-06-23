@@ -7,7 +7,7 @@ export const pages = [
     },
     {
         id:2,
-        url:"/rooms",
+        url:"/rooms/",
         name:"Rooms",
     },
 ];

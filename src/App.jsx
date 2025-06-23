@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Home from "./pages/Home";
 import Rooms from './pages/Rooms';
 import SingleRoom from "./pages/SingleRoom";
@@ -11,6 +11,8 @@ import { fetchRooms } from './Features/RoomSlice';
 import "./App.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { setUser, setCheckingAuth } from './Features/AuthSlice';
+import { auth } from './Firebase/firebase';
 
 
 const App = () => {
@@ -24,6 +26,20 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchRooms());
   }, [dispatch])
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        dispatch(setUser({
+          name: firebaseUser.displayName,
+          email: firebaseUser.email,
+          gender: firebaseUser.gender,
+        }));
+      }
+      dispatch(setCheckingAuth(false));
+    });
+    return () => unsubscribe();
+  }, [dispatch]);
 
 
   return (

@@ -1,7 +1,6 @@
-import React from 'react';
 import { useSelector } from "react-redux"
 import RoomsContainer from '../RoomsContainer';
-import loader from '../../assets/gif/loading-arrow.gif';
+import { CircularProgress, Box } from '@mui/material';
 
 const FeatureRoom = () => {
     const { featureRooms, loading, error } = useSelector((state) => state.rooms);
@@ -10,7 +9,11 @@ const FeatureRoom = () => {
         <section className='featureRoom'>
             <h1 className='font-bold'>Featured Rooms</h1>
             <div className="underline"></div>
-            {loading && <img src={loader} className='inline w-20 mt-16' alt="data-loader" />}
+            {loading && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', mt: 8 }}>
+                    <CircularProgress size={48} thickness={4} />
+                </Box>
+            )}
             {!loading && error && <p className='text-xl mt-20'>{error}</p>}
             {!loading && !error &&
                 <div className="section-data">

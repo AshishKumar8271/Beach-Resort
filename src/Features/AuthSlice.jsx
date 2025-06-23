@@ -42,12 +42,21 @@ const AuthSlice = createSlice({
         user: null,
         error: null,
         loading: false,
+        checkingAuth: true,
     },
     reducers: {
         logout: (state) => {
             state.user = null;
             state.error = null;
             state.loading = false;
+        },
+        setUser: (state, action) => {
+            state.user = action.payload;
+            state.error = null;
+            state.loading = false;
+        },
+        setCheckingAuth: (state, action) => {
+            state.checkingAuth = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -83,5 +92,5 @@ const AuthSlice = createSlice({
     }
 });
 
-export const { login, logout, loginClick, signUpClick, toggleModal, adminSignClick } = AuthSlice.actions;
+export const { login, logout, loginClick, signUpClick, toggleModal, adminSignClick, setUser, setCheckingAuth } = AuthSlice.actions;
 export default AuthSlice.reducer;
