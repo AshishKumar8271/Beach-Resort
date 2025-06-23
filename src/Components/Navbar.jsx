@@ -28,7 +28,7 @@ import {
 import { logout } from "../Features/AuthSlice";
 import { toast } from "react-toastify";
 import { auth } from "../Firebase/firebase";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = () => {
@@ -80,8 +80,8 @@ const Navbar = () => {
         {pages.map((item) => (
           <ListItem key={item.id} disablePadding>
             <ListItemButton
-              LinkComponent="a"
-              href={item.url}
+              LinkComponent={Link}
+              to={item.url}
               sx={{ textAlign: "center" }}
             >
               <ListItemText primary={item.name} />
@@ -113,8 +113,8 @@ const Navbar = () => {
                 {pages.map((item) => (
                   <ListItem key={item.id} disablePadding>
                     <ListItemButton
-                      LinkComponent="a"
-                      href={item.url}
+                      LinkComponent={Link}
+                      to={item.url}
                       disableGutters
                       disableRipple
                       sx={{

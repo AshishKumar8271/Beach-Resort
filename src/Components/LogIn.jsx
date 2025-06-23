@@ -27,10 +27,17 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [gender, setGender] = useState("");
+    const [acceptTerms, setAcceptTerms] = useState(false);
+    const [termsError, setTermsError] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         if (type === "signUp") {
+            if (!acceptTerms) {
+                setTermsError("Please accept the terms to sign up.");
+                return;
+            }
+            setTermsError("");
             dispatch(signUpUser({ name, email, password, gender }));
         } else {
             dispatch(signInUser({ email, password }));
@@ -40,6 +47,7 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
         setEmail("");
         setPassword("");
         setGender("");
+        setAcceptTerms(false);
     };
 
     useEffect(() => {
@@ -59,6 +67,9 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
                 <Alert severity="error" className="mb-4">
                     {error}
                 </Alert>
+            )}
+            {termsError && (
+                <Alert severity="error" className="mb-2">{termsError}</Alert>
             )}
             <Box className="flex flex-col items-center mb-2 gap-2">
                 <Avatar sx={{ bgcolor: "primary.main", height: 60, width: 60 }}>
@@ -135,7 +146,7 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
                 />
             ) : (
                 <FormControlLabel
-                    control={<Checkbox />}
+                    control={<Checkbox checked={acceptTerms} onChange={e => setAcceptTerms(e.target.checked)} />}
                     label={<span className="text-sm sm:text-base">I accept the terms and conditions</span>}
                 />
             )}
