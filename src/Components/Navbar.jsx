@@ -24,15 +24,18 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { logout } from "../Features/AuthSlice";
+import { toast } from "react-toastify";
+import { auth } from "../Firebase/firebase";
 
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 const Navbar = () => {
-  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [openModal, setOpenModal] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const dispatch = useDispatch();
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -48,6 +51,22 @@ const Navbar = () => {
 
   const handleLogInClick = () => {
     setOpenModal(true);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      toast.success("Logged out successfully!");
+      dispatch(logout());
+      handleCloseUserMenu();
+    } catch {
+      toast.error("Logout failed!");
+    }
+  };
+
+  const handleSettingsClick = () => {
+    toast.info("Coming soon!");
+    handleCloseUserMenu();
   };
 
   const drawer = (
@@ -96,7 +115,7 @@ const Navbar = () => {
                       disableGutters
                       disableRipple
                       sx={{
-                        textAlign: "center",color:'black', '&:hover': {
+                        textAlign: "center", color: 'black', '&:hover': {
                           backgroundColor: 'transparent',
                           color: 'primary.main'
                         },
@@ -116,7 +135,9 @@ const Navbar = () => {
                     <Avatar
                       alt={user.name}
                       sx={{ width: 36, height: 36, fontSize: 18 }}
-                    />
+                    >
+                      {user.name ? user.name.charAt(0).toUpperCase() : ''}
+                    </Avatar>
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -136,7 +157,10 @@ const Navbar = () => {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <MenuItem
+                      key={setting}
+                      onClick={setting === "Logout" ? handleLogout : handleSettingsClick}
+                    >
                       <Typography sx={{ textAlign: "center" }}>
                         {setting}
                       </Typography>

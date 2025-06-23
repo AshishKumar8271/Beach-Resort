@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import {
     Button,
     TextField,
-    CircularProgress,
     Alert,
     Avatar,
     Box,
@@ -18,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { signInUser, signUpUser } from "../Features/AuthSlice";
 import { FaLock } from "react-icons/fa6";
+import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
     const { user, loading, error } = useSelector((state) => state.auth);
@@ -42,10 +43,16 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
     };
 
     useEffect(() => {
-        if (user) {
+        if (user && !loading && !error) {
             setOpenModal(false);
+            if (type === "signIn") {
+                toast.success("Signed in successfully!");
+            } else if (type === "signUp") {
+                toast.success("Account created successfully!");
+            }
         }
-    }, [user, setOpenModal]);
+    }, [user, loading, error, setOpenModal, type]);
+
     return (
         <form onSubmit={handleSubmit}>
             {error && (
@@ -144,7 +151,7 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
             </Button>
             {type === "signIn" && (
                 <Typography variant="body2" className="text-center">
-                    Don't have an account?
+                    Don&apos;t have an account?
                     <Button
                         variant="text"
                         className="hover:bg-transparent"
@@ -159,6 +166,12 @@ const LogIn = ({ type, setOpenModal, handleSignUpClick = () => { } }) => {
             )}
         </form>
     );
+};
+
+LogIn.propTypes = {
+    type: PropTypes.string.isRequired,
+    setOpenModal: PropTypes.func.isRequired,
+    handleSignUpClick: PropTypes.func,
 };
 
 export default LogIn;

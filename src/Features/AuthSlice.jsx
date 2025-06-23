@@ -43,6 +43,13 @@ const AuthSlice = createSlice({
         error: null,
         loading: false,
     },
+    reducers: {
+        logout: (state) => {
+            state.user = null;
+            state.error = null;
+            state.loading = false;
+        },
+    },
     extraReducers: (builder) => {
         // Sign Up User
         builder.addCase(signUpUser.fulfilled, (state, action) => {
@@ -51,9 +58,9 @@ const AuthSlice = createSlice({
         })
         builder.addCase(signUpUser.rejected, (state, action) => {
             state.loading = false;
-            state.error = action.error.message;
+            state.error = action.payload || "An error occurred. Please try again.";
         })
-        builder.addCase(signUpUser.pending, (state, action) => {
+        builder.addCase(signUpUser.pending, (state) => {
             state.loading = true;
             state.error = null;
             state.user = null;

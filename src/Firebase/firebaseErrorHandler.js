@@ -7,7 +7,7 @@ export const getFirebaseErrorMessage = (errorCode) => {
     case "auth/wrong-password":
       return "Incorrect password. Please try again.";
     case "auth/email-already-in-use":
-      return "This email is already in use. Please use a different email.";
+      return "This email is already in use. Please Login instead.";
     case "auth/weak-password":
       return "Password is too weak. Please choose a stronger password.";
     case "auth/invalid-email":
